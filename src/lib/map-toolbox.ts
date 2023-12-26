@@ -1,10 +1,31 @@
 import { tileLayer, MapOptions, Map, TileLayer } from "leaflet";
-import { Coordinates } from "./common-types";
+import {
+  Coordinates,
+  DisplayedTileMapper,
+  SelectionOption,
+  TILE_MAPPER,
+} from "./common-types";
 
 /**
  * A utility class for creating Leaflet maps with a default satellite tile layer.
  */
 export class MapCreator {
+  static tileMapper = TILE_MAPPER;
+  static displayedTileMapper = DisplayedTileMapper;
+
+  static getTileMapper(): SelectionOption[] {
+    const keys = Object.keys(MapCreator.tileMapper);
+    return keys.map((key) => {
+      return {
+        key: key,
+        value:
+          MapCreator.displayedTileMapper[
+            key as keyof typeof MapCreator.displayedTileMapper
+          ],
+      };
+    });
+  }
+
   /**
    * Sets up a Leaflet map with an initial view centered on the specified coordinates
    * and an initial zoom level, and returns a `Map` instance.
@@ -18,7 +39,7 @@ export class MapCreator {
   static setupMap(
     divId: string,
     initialCords: Coordinates = [-8.6448, -35.216721],
-    initialZoom: number = 5,
+    initialZoom: number = 11,
     mapOptions: MapOptions = {}
   ): Map {
     return new Map(divId, mapOptions).setView(initialCords, initialZoom);
@@ -32,10 +53,9 @@ export class MapCreator {
    */
   static async getDefaultSateliteLayer(): Promise<TileLayer | null> {
     try {
-      const tileLayerUrl =
-        "https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga";
+      const tile = this.tileMapper["GoogleSatellite"];
       const attribution = "monumentosoftware.com";
-      return tileLayer(tileLayerUrl, { attribution });
+      return tileLayer(tile, { attribution });
     } catch (error) {
       console.warn(error);
       return null;
