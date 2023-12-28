@@ -5,6 +5,8 @@
 This project is a template web application that displays a Leaflet map with a default satellite tile layer.
 It also now includes a select option for changing map layers.
 
+![vite leaf screenshot](./screenShot.png)
+
 # Installation
 
 To install the project, clone the repository and install the dependencies using npm or yarn:
