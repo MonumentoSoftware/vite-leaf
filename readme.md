@@ -1,6 +1,9 @@
+![vite leaf logo](./viteLeafLogo.png)
+
 # Base Leaflet-Vite
 
 This project is a template web application that displays a Leaflet map with a default satellite tile layer.
+It also now includes a select option for changing map layers.
 
 # Installation
 
